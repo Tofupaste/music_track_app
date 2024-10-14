@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'screens/search_screen.dart';
+import 'providers/artist_provider.dart';
+import 'providers/song_provider.dart';
 
 void main() {
-  runApp(MyMusicApp());
+  runApp(const MyApp());
 }
 
-class MyMusicApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My Music App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        scaffoldBackgroundColor: Colors.white,
-        textTheme: TextTheme(
-          bodyText1: TextStyle(color: Colors.black, fontSize: 16),
-          bodyText2: TextStyle(color: Colors.black54, fontSize: 14),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ArtistProvider()),
+        ChangeNotifierProvider(create: (_) => SongProvider()),
+      ],
+      child: MaterialApp(
+        title: 'My Music App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
+        home: const SearchScreen(),
       ),
-      home: SearchScreen(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
