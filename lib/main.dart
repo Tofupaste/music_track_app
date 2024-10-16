@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'screens/search_screen.dart';
-import 'providers/artist_provider.dart';
-import 'providers/song_provider.dart';
+import 'screen/search_screen.dart';
 
 void main() {
   runApp(const MyApp());

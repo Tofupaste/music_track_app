@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.15.0  # Library untuk HTTP request
+  http: ^1.2.2  # Library untuk HTTP request
   provider: ^6.0.0  # Library untuk state management
   cached_network_image: ^3.2.1  # Library untuk caching gambar
   flutter_svg: ^1.0.3  # Library untuk SVG support (opsional)

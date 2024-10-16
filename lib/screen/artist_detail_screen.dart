@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/song_provider.dart';
 import '../widgets/song_card.dart';
 
 class ArtistDetailScreen extends StatelessWidget {
