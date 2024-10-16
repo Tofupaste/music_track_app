@@ -1,0 +1,24 @@
+name: my_music_app
+description: A Flutter application to browse and discover music from Spotify and YouTube.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.15.0  # Library untuk HTTP request
+  provider: ^6.0.0  # Library untuk state management
+  cached_network_image: ^3.2.1  # Library untuk caching gambar
+  flutter_svg: ^1.0.3  # Library untuk SVG support (opsional)
+
+flutter:
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: CustomFont
+      fonts:
+        - asset: assets/fonts/CustomFont-Regular.ttf
