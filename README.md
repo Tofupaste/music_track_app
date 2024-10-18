@@ -1,16 +1,8 @@
 # music_track_app
 
-A new Flutter project.
+My First Project Flutter, still WIP.
 
-## Getting Started
+The function of this application is useful for finding your favourite artist to know the most famous song from that artist, which is taken from spotify and youtube/ytm data.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+For Ask or Advice Purpose, u can contact me in :
+discordapp.com/users/490359784701296641
