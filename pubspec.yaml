@@ -15,10 +15,17 @@ dependencies:
   flutter_svg: ^1.0.3  # Library untuk SVG support (opsional)
 
 flutter:
-  assets:
-    - assets/images/
+  uses-material-design: true
+  # assets:
+  #   - assets/images/
 
-  fonts:
-    - family: CustomFont
-      fonts:
-        - asset: assets/fonts/CustomFont-Regular.ttf
+  # fonts:
+  #   - family: Roboto
+  #     fonts:
+  #     - asset: assets/fonts/Roboto-Regular.ttf
+  #     - asset: assets/fonts/Roboto-Bold.ttf
+  #       weight: 700
+  #     #   - asset: assets/fonts/CustomFont-Regular.ttf
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
