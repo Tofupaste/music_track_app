@@ -16,6 +16,7 @@ class ArtistProvider with ChangeNotifier {
 
   // Fungsi untuk mencari artis berdasarkan nama
   Future<void> searchArtists(String artistName) async {
+    print("Searching artists for: $artistName"); // Debugging untuk memastikan fungsi dipanggil
     _isLoading = true;
     _errorMessage = '';
     notifyListeners();
@@ -23,6 +24,7 @@ class ArtistProvider with ChangeNotifier {
     try {
       // Cari artis dari Spotify
       List<Artist> spotifyArtists = await SpotifyApiService.searchArtists(artistName);
+      print("Found ${spotifyArtists.length} artists from Spotify");
 
       // Cari video artis dari YouTube
       List<Map<String, dynamic>> youtubeVideos = await YouTubeApiService.searchVideos(artistName);
@@ -35,11 +37,22 @@ class ArtistProvider with ChangeNotifier {
           imageUrl: video['thumbnailUrl'],
         );
       }).toList();
+      print("Found ${youtubeArtists.length} artists from YouTube");
 
-      // Gabungkan hasil dan update state
-      _artists = [...spotifyArtists, ...youtubeArtists];
+      // Menggabungkan hasil dari Spotify dan YouTube, menghindari duplikasi
+      _artists = [...spotifyArtists];
+      
+      for (var youtubeArtist in youtubeArtists) {
+        bool isDuplicate = spotifyArtists.any((spotifyArtist) => spotifyArtist.name == youtubeArtist.name);
+        if (!isDuplicate) {
+          _artists.add(youtubeArtist);
+        }
+      }
+
+      print("Total artists after merging: ${_artists.length}");
     } catch (error) {
       _errorMessage = 'Failed to search artists: $error';
+      print("Error: $_errorMessage");
     } finally {
       _isLoading = false;
       notifyListeners();

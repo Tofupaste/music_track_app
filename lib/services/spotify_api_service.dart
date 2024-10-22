@@ -13,15 +13,18 @@ class SpotifyApiService {
     final accessToken = 'YOUR_ACCESS_TOKEN'; // Ganti dengan token akses yang valid
     final response = await http.get(
       Uri.parse(url),
-      headers: ApiConfig.getSpotifyHeaders(accessToken),
+      headers: ApiConfig.getSpotifyHeaders(accessToken), // Pastikan header benar
     );
 
+    // Cek status response
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final List<dynamic> artistsJson = data['artists']['items'];
 
       // Konversi JSON menjadi objek Artist
       return artistsJson.map((json) => Artist.fromJson(json)).toList();
+    } else if (response.statusCode == 401) {
+      throw Exception('Unauthorized: Access token is invalid or expired');
     } else {
       throw Exception('Failed to search artists: ${response.statusCode}');
     }
@@ -35,15 +38,18 @@ class SpotifyApiService {
     final accessToken = 'YOUR_ACCESS_TOKEN'; // Ganti dengan token akses yang valid
     final response = await http.get(
       Uri.parse(url),
-      headers: ApiConfig.getSpotifyHeaders(accessToken),
+      headers: ApiConfig.getSpotifyHeaders(accessToken), // Pastikan header benar
     );
 
+    // Cek status response
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final List<dynamic> tracksJson = data['tracks'];
 
       // Konversi JSON menjadi objek Song
       return tracksJson.map((json) => Song.fromJson(json)).toList();
+    } else if (response.statusCode == 401) {
+      throw Exception('Unauthorized: Access token is invalid or expired');
     } else {
       throw Exception('Failed to get top tracks: ${response.statusCode}');
     }
