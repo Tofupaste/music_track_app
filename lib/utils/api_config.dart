@@ -1,31 +1,26 @@
 class ApiConfig {
-  // Base URLs untuk API
+  // Spotify API configurations
   static const String spotifyBaseUrl = 'https://api.spotify.com/v1';
+  static const String spotifyAccessToken = 'YOUR_SPOTIFY_ACCESS_TOKEN'; // Masukkan token akses Spotify di sini
+  
+  // YouTube API configurations
   static const String youtubeBaseUrl = 'https://www.googleapis.com/youtube/v3';
+  static const String youtubeApiKey = 'YOUR_YOUTUBE_API_KEY'; // Masukkan API key YouTube di sini
 
-  // API Keys
-  static const String spotifyApiKey = 'YOUR_SPOTIFY_API_KEY';
-  static const String youtubeApiKey = 'YOUR_YOUTUBE_API_KEY';
-
-  // Endpoint paths
-  static const String searchArtistEndpoint = '/search';
-  static const String topTracksEndpoint = '/artists/{id}/top-tracks';
-
-  // Function untuk mendapatkan header authorization Spotify
-  static Map<String, String> getSpotifyHeaders(String accessToken) {
+  // Headers for Spotify requests
+  static Map<String, String> getSpotifyHeaders(String token) {
     return {
-      'Authorization': 'Bearer $accessToken',
+      'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     };
   }
 
-  // URL template untuk mendapatkan top tracks dari artis
-  static String getTopTracksUrl(String artistId) {
-    return '$spotifyBaseUrl/artists/$artistId/top-tracks';
+  // URLs
+  static String getSearchArtistUrl(String query) {
+    return '$spotifyBaseUrl/search?q=$query&type=artist';
   }
 
-  // URL template untuk search artis
-  static String getSearchArtistUrl(String query) {
-    return '$spotifyBaseUrl$searchArtistEndpoint?q=$query&type=artist';
+  static String getTopTracksUrl(String artistId) {
+    return '$spotifyBaseUrl/artists/$artistId/top-tracks';
   }
 }
