@@ -27,5 +27,6 @@ flutter:
   #       weight: 700
   #     #   - asset: assets/fonts/CustomFont-Regular.ttf
 dev_dependencies:
+  flutter_lints: ^2.0.0  # Versi bisa disesuaikan
   flutter_test:
     sdk: flutter
