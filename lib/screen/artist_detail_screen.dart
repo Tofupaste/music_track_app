@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/song_card.dart';
-import '../providers/song_provider.dart'; // Pastikan untuk mengimpor SongProvider
+import '../providers/song_provider.dart';
 
 class ArtistDetailScreen extends StatelessWidget {
   final String artistId;
@@ -11,29 +11,35 @@ class ArtistDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final songProvider = Provider.of<SongProvider>(context);
+    final songProvider = Provider.of<SongProvider>(context, listen: false);
     
     // Fetch songs ketika screen dibuka
-    songProvider.fetchSongs(artistId, artistName); // Ubah ke fetchSongs dengan dua argumen
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      songProvider.fetchSongs(artistId, artistName);
+    });
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Top Tracks'),
+        title: Text('$artistName - Top Tracks'), // Tampilkan nama artis di judul
       ),
-      body: songProvider.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: songProvider.songs.length,
-              itemBuilder: (context, index) {
-                final song = songProvider.songs[index];
-                return SongCard(
-                  song: song,
-                  onTap: () {
-                    // Logic ketika song card ditekan
+      body: Consumer<SongProvider>(
+        builder: (context, songProvider, child) {
+          return songProvider.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: songProvider.songs.length,
+                  itemBuilder: (context, index) {
+                    final song = songProvider.songs[index];
+                    return SongCard(
+                      song: song,
+                      onTap: () {
+                        // Logic ketika song card ditekan (misalnya, putar lagu atau tampilkan detail lagu)
+                      },
+                    );
                   },
                 );
-              },
-            ),
+        },
+      ),
     );
   }
 }

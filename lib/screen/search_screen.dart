@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/artist_card.dart';
 import '../providers/artist_provider.dart';
+import 'artist_detail_screen.dart'; // Pastikan untuk mengimpor ArtistDetailScreen
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -51,7 +52,15 @@ class _SearchScreenState extends State<SearchScreen> {
                         return ArtistCard(
                           artist: artist,
                           onTap: () {
-                            // Navigate to artist detail screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ArtistDetailScreen(
+                                  artistId: artist.id,
+                                  artistName: artist.name,
+                                ),
+                              ),
+                            );
                           },
                         );
                       },
