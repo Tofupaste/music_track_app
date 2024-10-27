@@ -51,7 +51,7 @@ class SongCard extends StatelessWidget {
                   ),
                 ),
               const SizedBox(width: 16.0),
-              // Informasi lagu
+              // Nama lagu dan album
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,20 +59,45 @@ class SongCard extends StatelessWidget {
                     Text(
                       song.title,
                       style: const TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4.0),
                     Text(
                       song.albumName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14.0,
-                        color: Colors.grey,
+                        color: Colors.grey[600],
                       ),
                     ),
                   ],
                 ),
+              ),
+              // Total listening
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.play_arrow, color: Colors.red, size: 16.0),
+                      Text(
+                        '${song.youtubeListening}',
+                        style: const TextStyle(fontSize: 12.0),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4.0),
+                  Row(
+                    children: [
+                      Icon(Icons.play_arrow, color: Colors.green, size: 16.0),
+                      Text(
+                        '${song.spotifyListening}',
+                        style: const TextStyle(fontSize: 12.0),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),

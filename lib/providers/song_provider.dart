@@ -32,6 +32,8 @@ class SongProvider with ChangeNotifier {
           title: video['title'],
           albumName: 'YouTube Video', // Nama album bisa diisi default seperti ini
           albumImageUrl: video['thumbnailUrl'], // Sesuaikan dengan model Anda
+          youtubeListening: video['viewCount'] ?? 0, // Default ke 0 jika tidak ada viewCount
+          spotifyListening: 0, // Set default 0 karena ini data dari YouTube
         );
       }).toList();
 
