@@ -80,7 +80,7 @@ class SongCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.play_arrow, color: Colors.red, size: 16.0),
+                      const Icon(Icons.play_arrow, color: Colors.red, size: 16.0),
                       Text(
                         '${song.youtubeListening}',
                         style: const TextStyle(fontSize: 12.0),
@@ -90,7 +90,7 @@ class SongCard extends StatelessWidget {
                   const SizedBox(height: 4.0),
                   Row(
                     children: [
-                      Icon(Icons.play_arrow, color: Colors.green, size: 16.0),
+                      const Icon(Icons.play_arrow, color: Colors.green, size: 16.0),
                       Text(
                         '${song.spotifyListening}',
                         style: const TextStyle(fontSize: 12.0),
