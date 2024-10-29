@@ -12,7 +12,6 @@ class SongProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
 
-  // Fungsi untuk mengambil lagu dari Spotify dan YouTube berdasarkan ID artis
   Future<void> fetchSongs(String artistId, String artistName) async {
     _isLoading = true;
     _errorMessage = '';
@@ -22,32 +21,36 @@ class SongProvider with ChangeNotifier {
       // Ambil top tracks dari Spotify
       List<Song> spotifySongs = await SpotifyApiService.getArtistTopTracks(artistId);
       
+      // Debugging output Spotify songs
+      debugPrint("Spotify Songs: $spotifySongs");
+      
       // Ambil video dari YouTube berdasarkan nama artis
       List<Map<String, dynamic>> youtubeVideos = await YouTubeApiService.searchVideos(artistName);
+      
+      // Debugging output YouTube videos
+      debugPrint("YouTube Videos: $youtubeVideos");
 
-      // Konversi video YouTube menjadi Song (jika ada data yang relevan)
       List<Song> youtubeSongs = youtubeVideos.map((video) {
         return Song(
           id: video['videoId'],
           title: video['title'],
-          albumName: 'YouTube Video', // Nama album bisa diisi default seperti ini
-          albumImageUrl: video['thumbnailUrl'], // Sesuaikan dengan model Anda
-          youtubeListening: video['viewCount'] ?? 0, // Default ke 0 jika tidak ada viewCount
-          spotifyListening: 0, // Set default 0 karena ini data dari YouTube
+          albumName: 'YouTube Video',
+          albumImageUrl: video['thumbnailUrl'],
+          youtubeListening: video['viewCount'] ?? 0,
+          spotifyListening: 0,
         );
       }).toList();
 
-      // Gabungkan kedua hasil dan update state
       _songs = [...spotifySongs, ...youtubeSongs];
     } catch (error) {
       _errorMessage = 'Failed to fetch songs: $error';
+      debugPrint("Error fetching songs: $error");
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  // Fungsi untuk membersihkan daftar lagu
   void clearSongs() {
     _songs = [];
     _errorMessage = '';
