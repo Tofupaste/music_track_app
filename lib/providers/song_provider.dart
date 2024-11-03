@@ -20,27 +20,23 @@ class SongProvider with ChangeNotifier {
     try {
       // Ambil top tracks dari Spotify
       List<Song> spotifySongs = await SpotifyApiService.getArtistTopTracks(artistId);
-      
-      // Debugging output Spotify songs
-      debugPrint("Spotify Songs: $spotifySongs");
-      
+
       // Ambil video dari YouTube berdasarkan nama artis
       List<Map<String, dynamic>> youtubeVideos = await YouTubeApiService.searchVideos(artistName);
-      
-      // Debugging output YouTube videos
-      debugPrint("YouTube Videos: $youtubeVideos");
 
+      // Konversi video dari YouTube ke dalam model Song
       List<Song> youtubeSongs = youtubeVideos.map((video) {
         return Song(
           id: video['videoId'],
           title: video['title'],
           albumName: 'YouTube Video',
           albumImageUrl: video['thumbnailUrl'],
-          youtubeListening: video['viewCount'] ?? 0,
+          youtubeListening: video['viewCount'] ?? 0, // Pastikan viewCount diambil dengan benar
           spotifyListening: 0,
         );
       }).toList();
 
+      // Gabungkan data dari Spotify dan YouTube
       _songs = [...spotifySongs, ...youtubeSongs];
     } catch (error) {
       _errorMessage = 'Failed to fetch songs: $error';
