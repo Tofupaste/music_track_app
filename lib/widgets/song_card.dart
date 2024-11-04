@@ -5,103 +5,40 @@ class SongCard extends StatelessWidget {
   final Song song;
   final VoidCallback onTap;
 
-  const SongCard({
-    Key? key,
-    required this.song,
-    required this.onTap,
-  }) : super(key: key);
+  const SongCard({Key? key, required this.song, required this.onTap}) : super(key: key);
+
+  String formatListenerCount(int count) {
+    if (count >= 1000000) {
+      return '${(count / 1000000).toStringAsFixed(1)}M'; // Format jutaan dengan 1 desimal
+    } else if (count >= 1000) {
+      return '${(count / 1000).toStringAsFixed(1)}K'; // Format ribuan dengan 1 desimal
+    } else {
+      return count.toString(); // Tampilkan angka secara langsung jika di bawah 1000
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ListTile(
       onTap: onTap,
-      child: Card(
-        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              // Gambar album
-              if (song.albumImageUrl != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    song.albumImageUrl!,
-                    width: 60.0,
-                    height: 60.0,
-                    fit: BoxFit.cover,
-                  ),
-                )
-              else
-                Container(
-                  width: 60.0,
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: const Icon(
-                    Icons.music_note,
-                    color: Colors.grey,
-                    size: 40.0,
-                  ),
-                ),
-              const SizedBox(width: 16.0),
-              // Nama lagu dan album
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      song.title,
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      song.albumName,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // Total listening
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.play_arrow, color: Colors.red, size: 16.0),
-                      Text(
-                        '${song.youtubeListening}',
-                        style: const TextStyle(fontSize: 12.0),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4.0),
-                  Row(
-                    children: [
-                      const Icon(Icons.play_arrow, color: Colors.green, size: 16.0),
-                      Text(
-                        '${song.spotifyListening}',
-                        style: const TextStyle(fontSize: 12.0),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+      leading: song.albumImageUrl != null
+          ? Image.network(song.albumImageUrl!)
+          : const Icon(Icons.music_note),
+      title: Text(song.title),
+      subtitle: Text(song.albumName),
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Spotify: ${formatListenerCount(song.spotifyListening)}',
+            style: TextStyle(color: Colors.green),
           ),
-        ),
+          const SizedBox(height: 4),
+          Text(
+            'YouTube: ${formatListenerCount(song.youtubeListening)}',
+            style: TextStyle(color: Colors.red),
+          ),
+        ],
       ),
     );
   }
