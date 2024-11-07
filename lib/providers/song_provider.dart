@@ -7,25 +7,32 @@ class SongProvider with ChangeNotifier {
   List<Song> _songs = [];
   bool _isLoading = false;
   String _errorMessage = '';
+  String _selectedPlatform = ''; // Menyimpan platform yang dipilih
 
   List<Song> get songs => _songs;
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
+  String get selectedPlatform => _selectedPlatform;
+
+  // Fungsi untuk mengatur platform yang dipilih
+  void setPlatform(String platform) {
+    _selectedPlatform = platform;
+    notifyListeners();
+  }
 
   Future<void> fetchSongs(String artistId, String artistName, String platform) async {
+    _selectedPlatform = platform; // Simpan platform yang dipilih
     _isLoading = true;
     _errorMessage = '';
     notifyListeners();
 
     try {
       if (platform == "Spotify") {
-        // Ambil top tracks dari Spotify
+        // Ambil data dari Spotify
         _songs = await SpotifyApiService.getArtistTopTracks(artistId);
       } else if (platform == "YouTube") {
-        // Ambil video dari YouTube berdasarkan nama artis
+        // Ambil data dari YouTube
         List<Map<String, dynamic>> youtubeVideos = await YouTubeApiService.searchVideos(artistName);
-
-        // Konversi video dari YouTube ke dalam model Song
         _songs = youtubeVideos.map((video) {
           return Song(
             id: video['videoId'],
@@ -36,6 +43,9 @@ class SongProvider with ChangeNotifier {
             spotifyListening: 0,
           );
         }).toList();
+
+        // Sortir berdasarkan jumlah view YouTube (descending)
+        _songs.sort((a, b) => b.youtubeListening.compareTo(a.youtubeListening));
       }
     } catch (error) {
       _errorMessage = 'Failed to fetch songs: $error';
