@@ -4,7 +4,7 @@ class ApiConfig {
 
   // YouTube API configurations
   static const String youtubeBaseUrl = 'https://www.googleapis.com/youtube/v3';
-  static const String youtubeApiKey = 'AIzaSyAx7wbaoaqzPdJeeOzV2fge5jiY3rgWulU'; // Ganti dengan API key YouTube Anda
+  static const String youtubeApiKey = 'Your API Youtube'; // Ganti dengan API key YouTube Anda
   
   // Headers for Spotify requests (token didapatkan secara dinamis)
   static Map<String, String> getSpotifyHeaders(String token) {
