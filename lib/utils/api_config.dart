@@ -1,12 +1,30 @@
 class ApiConfig {
-  // Spotify API configurations
+  // Base URL untuk Spotify dan YouTube API
   static const String spotifyBaseUrl = 'https://api.spotify.com/v1';
-
-  // YouTube API configurations
   static const String youtubeBaseUrl = 'https://www.googleapis.com/youtube/v3';
-  static const String youtubeApiKey = 'Your API Youtube'; // Ganti dengan API key YouTube Anda
-  
-  // Headers for Spotify requests (token didapatkan secara dinamis)
+
+  // YouTube API Key (ganti dengan API key Anda)
+  static const String youtubeApiKey = 'YOUR_API_KEY';
+
+  // URL untuk pencarian video di YouTube dengan `maxResults` sebagai parameter opsional
+  static String getYouTubeSearchUrl(String artistName, {int maxResults = 20}) {
+    return '$youtubeBaseUrl/search'
+           '?part=snippet'
+           '&q=${Uri.encodeComponent(artistName)}'
+           '&type=video'
+           '&maxResults=$maxResults'
+           '&key=$youtubeApiKey';
+  }
+
+  // URL untuk mengambil detail video di YouTube (mengambil statistik seperti view count)
+  static String getYouTubeVideoDetailsUrl(String videoId) {
+    return '$youtubeBaseUrl/videos'
+           '?part=statistics'
+           '&id=$videoId'
+           '&key=$youtubeApiKey';
+  }
+
+  // Headers untuk permintaan Spotify (token harus didapatkan secara dinamis)
   static Map<String, String> getSpotifyHeaders(String token) {
     return {
       'Authorization': 'Bearer $token',
@@ -14,21 +32,13 @@ class ApiConfig {
     };
   }
 
-  // Spotify API URLs
+  // URL untuk mencari artis di Spotify
   static String getSearchArtistUrl(String query) {
     return '$spotifyBaseUrl/search?q=$query&type=artist';
   }
 
+  // URL untuk mengambil top tracks dari artis di Spotify
   static String getTopTracksUrl(String artistId) {
-    return '$spotifyBaseUrl/artists/$artistId/top-tracks';
-  }
-
-  // YouTube API URLs
-  static String getYouTubeSearchUrl(String query) {
-    return '$youtubeBaseUrl/search?part=snippet&q=$query&type=video&key=$youtubeApiKey';
-  }
-
-  static String getYouTubeVideoDetailsUrl(String videoId) {
-    return '$youtubeBaseUrl/videos?part=statistics&id=$videoId&key=$youtubeApiKey';
+    return '$spotifyBaseUrl/artists/$artistId/top-tracks?market=US'; // Market dapat disesuaikan
   }
 }
