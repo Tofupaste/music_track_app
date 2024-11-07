@@ -12,32 +12,31 @@ class SongProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
 
-  Future<void> fetchSongs(String artistId, String artistName) async {
+  Future<void> fetchSongs(String artistId, String artistName, String platform) async {
     _isLoading = true;
     _errorMessage = '';
     notifyListeners();
 
     try {
-      // Ambil top tracks dari Spotify
-      List<Song> spotifySongs = await SpotifyApiService.getArtistTopTracks(artistId);
+      if (platform == "Spotify") {
+        // Ambil top tracks dari Spotify
+        _songs = await SpotifyApiService.getArtistTopTracks(artistId);
+      } else if (platform == "YouTube") {
+        // Ambil video dari YouTube berdasarkan nama artis
+        List<Map<String, dynamic>> youtubeVideos = await YouTubeApiService.searchVideos(artistName);
 
-      // Ambil video dari YouTube berdasarkan nama artis
-      List<Map<String, dynamic>> youtubeVideos = await YouTubeApiService.searchVideos(artistName);
-
-      // Konversi video dari YouTube ke dalam model Song
-      List<Song> youtubeSongs = youtubeVideos.map((video) {
-        return Song(
-          id: video['videoId'],
-          title: video['title'],
-          albumName: 'YouTube Video',
-          albumImageUrl: video['thumbnailUrl'],
-          youtubeListening: video['viewCount'] ?? 0, // Pastikan viewCount diambil dengan benar
-          spotifyListening: 0,
-        );
-      }).toList();
-
-      // Gabungkan data dari Spotify dan YouTube
-      _songs = [...spotifySongs, ...youtubeSongs];
+        // Konversi video dari YouTube ke dalam model Song
+        _songs = youtubeVideos.map((video) {
+          return Song(
+            id: video['videoId'],
+            title: video['title'],
+            albumName: 'YouTube Video',
+            albumImageUrl: video['thumbnailUrl'],
+            youtubeListening: video['viewCount'] ?? 0,
+            spotifyListening: 0,
+          );
+        }).toList();
+      }
     } catch (error) {
       _errorMessage = 'Failed to fetch songs: $error';
       debugPrint("Error fetching songs: $error");
