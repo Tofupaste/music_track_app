@@ -2,17 +2,17 @@ class Song {
   final String id;
   final String title;
   final String albumName;
-  final String? albumImageUrl; // Gambar album, bisa null
-  int spotifyListening; // Jumlah pendengar Spotify
-  int youtubeListening; // Jumlah pendengar YouTube
+  final String? albumImageUrl;
+  final int spotifyListening;
+  final int youtubeListening;
 
   Song({
     required this.id,
     required this.title,
     required this.albumName,
     this.albumImageUrl,
-    this.spotifyListening = 0, // Default ke 0 jika tidak disediakan
-    this.youtubeListening = 0, // Default ke 0 jika tidak disediakan
+    this.spotifyListening = 0,
+    this.youtubeListening = 0,
   });
 
   // Factory method untuk membuat instance Song dari data JSON yang diterima dari API
