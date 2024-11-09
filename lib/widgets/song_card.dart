@@ -4,8 +4,14 @@ import '../models/song.dart';
 class SongCard extends StatelessWidget {
   final Song song;
   final VoidCallback onTap;
+  final String selectedPlatform; // Tambahkan parameter platform
 
-  const SongCard({Key? key, required this.song, required this.onTap}) : super(key: key);
+  const SongCard({
+    Key? key,
+    required this.song,
+    required this.onTap,
+    required this.selectedPlatform, // Tambahkan parameter platform
+  }) : super(key: key);
 
   String formatListenerCount(int count) {
     if (count >= 1000000) {
@@ -26,19 +32,13 @@ class SongCard extends StatelessWidget {
           : const Icon(Icons.music_note),
       title: Text(song.title),
       subtitle: Text(song.albumName),
-      trailing: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Spotify: ${formatListenerCount(song.spotifyListening)}',
-            style: TextStyle(color: Colors.green),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'YouTube: ${formatListenerCount(song.youtubeListening)}',
-            style: TextStyle(color: Colors.red),
-          ),
-        ],
+      trailing: Text(
+        selectedPlatform == 'Spotify'
+            ? 'Spotify: ${formatListenerCount(song.spotifyListening)}'
+            : 'YouTube: ${formatListenerCount(song.youtubeListening)}',
+        style: TextStyle(
+          color: selectedPlatform == 'Spotify' ? Colors.green : Colors.red,
+        ),
       ),
     );
   }
