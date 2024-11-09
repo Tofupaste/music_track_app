@@ -24,15 +24,17 @@ class YouTubeApiService {
         if (videoResponse.statusCode == 200) {
           final videoData = json.decode(videoResponse.body);
           final viewCount = int.tryParse(videoData['items']?[0]['statistics']?['viewCount'] ?? '0') ?? 0;
+          final thumbnailUrl = item['snippet']['thumbnails']['high']['url'];
           
           videos.add({
             'videoId': videoId,
             'title': item['snippet']['title'],
-            'thumbnailUrl': item['snippet']['thumbnails']['high']['url'], // Menggunakan thumbnail resolusi tinggi
+            'thumbnailUrl': thumbnailUrl, // Menggunakan thumbnail resolusi tinggi
             'viewCount': viewCount,
           });
           
-          debugPrint("Video: ${item['snippet']['title']} - ViewCount: $viewCount");
+          // Debug print to check video title, view count, and thumbnail URL
+          debugPrint("Video: ${item['snippet']['title']} - ViewCount: $viewCount - Thumbnail: $thumbnailUrl");
         } else {
           debugPrint("Failed to fetch video details for videoId: $videoId");
         }
