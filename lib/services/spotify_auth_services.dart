@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 
 class SpotifyAuthService {
   static Future<String> getAccessToken() async {
-    const clientId = 'your_client_id';  // Replace with your actual client ID
-    const clientSecret = 'your_client_secret';  // Replace with your actual client secret
+    const clientId = 'client id';  // Replace with your actual client ID
+    const clientSecret = 'client secret';  // Replace with your actual client secret
     
     String credentials = base64Encode(utf8.encode('$clientId:$clientSecret'));
     final url = Uri.parse('https://accounts.spotify.com/api/token');
