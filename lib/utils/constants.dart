@@ -19,3 +19,4 @@ class AppConstants {
   // API related
   static const String defaultCountryCode = 'US'; // Kode negara default untuk top tracks
 }
+
