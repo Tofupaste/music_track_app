@@ -15,17 +15,27 @@ class Song {
     this.youtubeListening = 0,
   });
 
-  // Factory method untuk membuat instance Song dari data JSON yang diterima dari API
-  factory Song.fromJson(Map<String, dynamic> json) {
+  // Factory method untuk membuat instance Song dari data JSON yang diterima dari Spotify API
+  factory Song.fromSpotifyJson(Map<String, dynamic> json) {
     return Song(
-      id: json['id'],
-      title: json['name'],
-      albumName: json['album']['name'],
+      id: json['id'] as String,
+      title: json['name'] as String,
+      albumName: json['album']['name'] as String,
       albumImageUrl: json['album']['images']?.isNotEmpty == true
-          ? json['album']['images'][0]['url']
+          ? json['album']['images'][0]['url'] as String
           : null, // Mengambil URL gambar album jika ada
-      spotifyListening: json['popularity'] ?? 0, // Jika ada informasi popularitas dari Spotify
-      youtubeListening: json['external_ids']['youtube'] ?? 0, // Mengambil jumlah pendengar YouTube jika ada
+      spotifyListening: json['popularity'] as int? ?? 0, // Mendapatkan popularitas Spotify jika ada
+    );
+  }
+
+  // Factory method untuk membuat instance Song dari data JSON yang diterima dari YouTube API
+  factory Song.fromYouTubeJson(Map<String, dynamic> json) {
+    return Song(
+      id: json['id']['videoId'] as String,
+      title: json['snippet']['title'] as String,
+      albumName: json['snippet']['channelTitle'] as String, // Nama channel sebagai albumName
+      albumImageUrl: json['snippet']['thumbnails']['high']['url'] as String?,
+      youtubeListening: int.tryParse(json['statistics']['viewCount'] ?? '0') ?? 0, // Mendapatkan jumlah view YouTube
     );
   }
 }
