@@ -21,9 +21,9 @@ class SpotifyApiService {
       final data = jsonDecode(response.body);
       debugPrint('Spotify response data: ${data.toString()}');
       final List<dynamic> artistsJson = data['artists']['items'];
-
       return artistsJson.map((json) => Artist.fromJson(json)).toList();
     } else {
+      debugPrint('Error searching artists: ${response.body}');
       throw Exception('Failed to search artists: ${response.statusCode}');
     }
   }
@@ -42,9 +42,9 @@ class SpotifyApiService {
       final data = jsonDecode(response.body);
       debugPrint('Spotify response data: ${data.toString()}');
       final List<dynamic> tracksJson = data['tracks'];
-      // Gunakan `fromSpotifyJson` untuk parsing data dari Spotify
       return tracksJson.map((json) => Song.fromSpotifyJson(json)).toList();
     } else {
+      debugPrint('Error fetching top tracks: ${response.body}');
       throw Exception('Failed to get top tracks: ${response.statusCode}');
     }
   }
