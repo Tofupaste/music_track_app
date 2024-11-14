@@ -24,16 +24,16 @@ class SongCard extends StatelessWidget {
       child: ListTile(
         leading: song.albumImageUrl != null
             ? FadeInImage.assetNetwork(
-                placeholder: 'assets/images/loading.png',
+                placeholder: 'lib/assets/images/loading.png',
                 image: song.albumImageUrl!,
                 fit: BoxFit.cover,
                 width: 100,
                 height: 100,
                 imageErrorBuilder: (context, error, stackTrace) {
-                  return Image.asset('assets/images/music_cross.png', fit: BoxFit.cover);
+                  return Image.asset('lib/assets/images/music_cross.png', fit: BoxFit.cover);
                 },
               )
-            : Image.asset('assets/images/music_cross.png', fit: BoxFit.cover),
+            : Image.asset('lib/assets/images/music_cross.png', fit: BoxFit.cover),
         title: Text(song.title),
         subtitle: Text('$selectedPlatform - ${formatNumber(listenerCount)} views'),
         onTap: onTap,

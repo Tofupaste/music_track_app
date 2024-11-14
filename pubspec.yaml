@@ -16,8 +16,9 @@ dependencies:
 
 flutter:
   uses-material-design: true
-  # assets:
-  #   - assets/images/
+  assets:
+    - lib/assets/images/loading.png
+    - lib/assets/images/music_cross.png
 
   # fonts:
   #   - family: Roboto
