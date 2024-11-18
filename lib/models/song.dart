@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Song {
   final String id;
   final String title;
@@ -28,23 +30,22 @@ class Song {
     );
   }
 
-  // Factory method untuk membuat instance Song dari data JSON yang diterima dari YouTube API
   factory Song.fromYouTubeJson(Map<String, dynamic> json) {
     final thumbnails = json['snippet']['thumbnails'];
-    final albumImageUrl = thumbnails?['high']?['url'] ?? // Prioritas ke kualitas 'high'
-        thumbnails?['medium']?['url'] ?? // Fallback ke 'medium' jika 'high' tidak ada
-        thumbnails?['default']?['url']; // Fallback terakhir ke 'default'
+    final albumImageUrl = thumbnails?['high']?['url'] ?? 
+        thumbnails?['medium']?['url'] ?? 
+        thumbnails?['default']?['url'];
 
-    // Debugging log (opsional)
-    // print('Thumbnail data: $thumbnails');
-    // print('Selected thumbnail URL: $albumImageUrl');
+    if (albumImageUrl == null) {
+      debugPrint('Thumbnail not found for video ID: ${json['id']?['videoId']}');
+    }
 
     return Song(
-      id: json['id']?['videoId'] as String? ?? '', // Default ke string kosong jika ID hilang
+      id: json['id']?['videoId'] as String? ?? '',
       title: json['snippet']?['title'] as String? ?? 'Unknown Title',
-      albumName: json['snippet']?['channelTitle'] as String? ?? 'Unknown Channel', // Nama channel sebagai albumName
-      albumImageUrl: albumImageUrl, // Thumbnail gambar
-      youtubeListening: int.tryParse(json['statistics']?['viewCount'] ?? '0') ?? 0, // Mendapatkan jumlah view YouTube
+      albumName: json['snippet']?['channelTitle'] as String? ?? 'Unknown Channel',
+      albumImageUrl: albumImageUrl,
+      youtubeListening: int.tryParse(json['statistics']?['viewCount'] ?? '0') ?? 0,
     );
   }
 }
