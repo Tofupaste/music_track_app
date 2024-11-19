@@ -29,7 +29,7 @@ class SongCard extends StatelessWidget {
       child: ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: song.albumImageUrl != null && song.albumImageUrl!.isNotEmpty
+          child: (song.albumImageUrl != null && song.albumImageUrl!.isNotEmpty)
               ? FadeInImage.assetNetwork(
                   placeholder: 'lib/assets/images/loading.png',
                   image: song.albumImageUrl!,
