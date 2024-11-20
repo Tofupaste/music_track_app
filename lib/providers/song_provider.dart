@@ -32,17 +32,7 @@ class SongProvider with ChangeNotifier {
         _songs = await SpotifyApiService.getArtistTopTracks(artistId);
       } else if (platform == "YouTube") {
         // Ambil data dari YouTube
-        List<Map<String, dynamic>> youtubeVideos = await YouTubeApiService.searchVideos(artistName);
-        _songs = youtubeVideos.map((video) {
-          return Song(
-            id: video['videoId'],
-            title: video['title'],
-            albumName: 'YouTube Video',
-            albumImageUrl: video['thumbnailUrl'],
-            youtubeListening: video['viewCount'] ?? 0,
-            spotifyListening: 0,
-          );
-        }).toList();
+        _songs = await YouTubeApiService.searchVideos(artistName);
 
         // Sortir berdasarkan jumlah view YouTube (descending)
         _songs.sort((a, b) => b.youtubeListening.compareTo(a.youtubeListening));
