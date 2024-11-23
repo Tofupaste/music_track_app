@@ -24,7 +24,6 @@ class _ArtistDetailScreenState extends State<ArtistDetailScreen> {
         setState(() {
           _selectedPlatform = platform;
         });
-        // Fetch songs setelah platform dipilih
         final songProvider = Provider.of<SongProvider>(context, listen: false);
         songProvider.clearSongs();
         songProvider.fetchSongs(widget.artistId, widget.artistName, platform);
@@ -86,6 +85,7 @@ class _ArtistDetailScreenState extends State<ArtistDetailScreen> {
                           onTap: () {
                             // Logic ketika song card ditekan (misalnya, putar lagu atau tampilkan detail lagu)
                           },
+                          selectedPlatform: _selectedPlatform!,
                         );
                       },
                     );
