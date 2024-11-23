@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 
 class SpotifyAuthService {
   static Future<String> getAccessToken() async {
-    const clientId = 'client id';  // Replace with your actual client ID
-    const clientSecret = 'client secret';  // Replace with your actual client secret
+    const clientId = 'ClientId';  // Pastikan ini benar
+    const clientSecret = 'ClientSecret';  // Pastikan ini benar
     
     String credentials = base64Encode(utf8.encode('$clientId:$clientSecret'));
     final url = Uri.parse('https://accounts.spotify.com/api/token');
@@ -18,10 +19,14 @@ class SpotifyAuthService {
     };
     
     final response = await http.post(url, headers: headers, body: body);
+    
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return data['access_token'];
+      final accessToken = data['access_token'];
+      debugPrint('Spotify Access Token: $accessToken'); // Debug token
+      return accessToken;
     } else {
+      debugPrint('Error fetching token: ${response.body}'); // Debug error message
       throw Exception('Failed to get access token: ${response.statusCode}');
     }
   }
