@@ -30,7 +30,7 @@ class SpotifyApiService {
 
   // Mendapatkan top tracks dari artis berdasarkan ID
   static Future<List<Song>> getArtistTopTracks(String artistId, {String countryCode = 'US'}) async {
-    final url = '${ApiConfig.getTopTracksUrl(artistId)}?market=$countryCode';
+    final url = '${ApiConfig.getTopTracksUrl(artistId)}?market=$countryCode&limit=50';
     String accessToken = await SpotifyAuthService.getAccessToken();
 
     final response = await http.get(
@@ -42,6 +42,8 @@ class SpotifyApiService {
       final data = jsonDecode(response.body);
       debugPrint('Spotify response data: ${data.toString()}');
       final List<dynamic> tracksJson = data['tracks'];
+
+      // Mapping data menjadi objek Song
       return tracksJson.map((json) => Song.fromSpotifyJson(json)).toList();
     } else {
       debugPrint('Error fetching top tracks: ${response.body}');
