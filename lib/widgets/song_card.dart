@@ -16,9 +16,16 @@ class SongCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listenerCount = selectedPlatform == 'Spotify'
+    // Ambil listener count berdasarkan platform
+    final rawListenerCount = selectedPlatform == 'Spotify'
         ? song.spotifyListening
         : song.youtubeListening;
+
+    // Perbaiki skala jika data kecil
+    final listenerCount = rawListenerCount < 1000 ? rawListenerCount * 1000 : rawListenerCount;
+
+    // Debugging
+    print('Listener count for ${song.title} on $selectedPlatform: $listenerCount');
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),

@@ -1,12 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Song {
   final String id;
   final String title;
   final String albumName;
   final String? albumImageUrl;
-  final int spotifyListening;
-  final int youtubeListening;
+  final int spotifyListening; // Listener dari Spotify
+  final int youtubeListening; // Listener dari YouTube
 
   Song({
     required this.id,
@@ -32,8 +32,8 @@ class Song {
 
   factory Song.fromYouTubeJson(Map<String, dynamic> json) {
     final thumbnails = json['snippet']['thumbnails'];
-    final albumImageUrl = thumbnails?['high']?['url'] ?? 
-        thumbnails?['medium']?['url'] ?? 
+    final albumImageUrl = thumbnails?['high']?['url'] ??
+        thumbnails?['medium']?['url'] ??
         thumbnails?['default']?['url'];
 
     if (albumImageUrl == null) {
