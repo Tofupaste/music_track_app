@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Song {
   final String id;
   final String title;
   final String albumName;
   final String? albumImageUrl;
-  final int spotifyListening; // Listener dari Spotify
-  final int youtubeListening; // Listener dari YouTube
+  final int spotifyListening; // Popularity dari Spotify
+  final int youtubeListening; // View Count dari YouTube
 
   Song({
     required this.id,
@@ -26,7 +26,7 @@ class Song {
       albumImageUrl: json['album']['images']?.isNotEmpty == true
           ? json['album']['images'][0]['url'] as String
           : null, // Mengambil URL gambar album jika ada
-      spotifyListening: json['popularity'] as int? ?? 0, // Mendapatkan popularitas Spotify jika ada
+      spotifyListening: json['popularity'] as int? ?? 0, // Mendapatkan popularitas Spotify
     );
   }
 
